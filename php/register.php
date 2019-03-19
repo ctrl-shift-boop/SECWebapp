@@ -1,7 +1,6 @@
 <?php
  // Check if form was submitted:
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['recaptcha_response'])) {
-
 	// Build POST request:
 	$recaptcha_url = 'https://www.google.com/recaptcha/api/siteverify';
 	$recaptcha_secret = '6LfgopcUAAAAAOoANlGdC8rXZ-LXaYLdEOA8h92u';
@@ -16,8 +15,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['recaptcha_response'])
 		// Change this to your connection info.
 		$DATABASE_HOST = 'localhost';
 		$DATABASE_USER = 'root';
-		$DATABASE_PASS = 'usbw';
-		$DATABASE_NAME = 'securitywebappdb';
+		$DATABASE_PASS = '';
+		$DATABASE_NAME = 'securitywebapp';
 		// Try and connect using the info above.
 		$con = mysqli_connect($DATABASE_HOST, $DATABASE_USER, $DATABASE_PASS, $DATABASE_NAME);
 		if (mysqli_connect_errno()) {
