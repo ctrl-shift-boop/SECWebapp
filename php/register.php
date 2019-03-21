@@ -5,17 +5,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['recaptcha_response'])
 	$recaptcha_url = 'https://www.google.com/recaptcha/api/siteverify';
 	$recaptcha_secret = '6LfgopcUAAAAAOoANlGdC8rXZ-LXaYLdEOA8h92u';
 	$recaptcha_response = $_POST['recaptcha_response'];
-
 	// Make and decode POST request:
 	$recaptcha = file_get_contents($recaptcha_url . '?secret=' . $recaptcha_secret . '&response=' . $recaptcha_response);
 	$recaptcha = json_decode($recaptcha);
-
 	// Take action based on the score returned:
 	if ($recaptcha->score >= 0.5) {
 		// Change this to your connection info.
 		$DATABASE_HOST = 'localhost';
 		$DATABASE_USER = 'root';
-		$DATABASE_PASS = '';
+		$DATABASE_PASS = 'usbw';
 		$DATABASE_NAME = 'securitywebapp';
 		// Try and connect using the info above.
 		$con = mysqli_connect($DATABASE_HOST, $DATABASE_USER, $DATABASE_PASS, $DATABASE_NAME);
@@ -32,6 +30,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['recaptcha_response'])
 		if (empty($_POST['username']) || empty($_POST['password']) || empty($_POST['email'])) {
 			// One or more values are empty.
 			die('Please complete the registration form');
+		}
+		if (!filter_var($_POST['email'], FILTER_VALIDATE_EMAIL)) {
+			die("Please fill in a valid email");
+		}
+		if (!preg_match('/[A-Za-z0-9]+/', $_POST['username'])) {
+			die("Please don't try anything (Allowed characters: Uppercase, lowercase letters and numbers)");
+		}
+		if (strlen($_POST['password'] > 20 || strlen($_POST['password']) < 5)) {
+			die("Please fill in a password that is longer than 5 characters and shorter than 20");
 		}
 		// We need to check if the account with that username exists.
 		if ($stmt = $con->prepare('SELECT id, password FROM accounts WHERE username = ?')) {
@@ -52,7 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['recaptcha_response'])
 					$stmt->execute();
 					echo 'You have successfully registered, you can now login!';
 					echo '<br>';
-					echo 'Your recaptcha score is: ',$recaptcha->score,' the higher the score, the less likely you are to be a bot (0.0 to 1.0)';
+					echo 'Your recaptcha score is: ', $recaptcha->score, ' the higher the score, the less likely you are to be a bot (0.0 to 1.0)';
 					echo '<form action="/index.html"><button>Go back to the login page</button</form>';
 				} else {
 					// Something is wrong with the sql statement, check to make sure accounts table exists with all 3 fields.
@@ -66,8 +73,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['recaptcha_response'])
 		}
 		$con->close();
 	} else {
-		echo("You shall not pass");
+		echo ("You shall not pass");
 	}
 }
-
- 
