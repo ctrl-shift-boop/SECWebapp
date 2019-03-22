@@ -17,22 +17,30 @@ if (!isset($_POST['username'], $_POST['password'])) {
 	die('Username and/or password does not exist!');
 }
 // Prepare our SQL 
-if ($stmt = $con->prepare('SELECT id, password FROM accounts WHERE username = ?')) {
+if ($stmt = $con->prepare('SELECT id, password, secret FROM accounts WHERE username = ?')) {
 	// Bind parameters (s = string, i = int, b = blob, etc), hash the password using the PHP password_hash function.
 	$stmt->bind_param('s', $_POST['username']);
 	$stmt->execute();
 	$stmt->store_result();
 	// Store the result so we can check if the account exists in the database.
 	if ($stmt->num_rows > 0) {
-		$stmt->bind_result($id, $password);
+		$stmt->bind_result($id, $password, $secret);
 		$stmt->fetch();
 		// Account exists, now we verify the password.
 		if (password_verify($_POST['password'], $password)) {
-			// Verification success! User has loggedin!
-			$_SESSION['loggedin'] = true;
-			$_SESSION['name'] = $_POST['username'];
-			$_SESSION['id'] = $id;
-			header('Location: /php/home.php');
+			if(!$secret == NULL){
+				// First step of Authenication is a succes
+				$_SESSION['loggedin'] = false;
+				$_SESSION['name'] = $_POST['username'];
+				$_SESSION['id'] = $id;
+				header('Location: /secondstep.html');
+			}else{
+				// Verification success! User has loggedin!
+				$_SESSION['loggedin'] = true;
+				$_SESSION['name'] = $_POST['username'];
+				$_SESSION['id'] = $id;
+				header('Location: /php/home.php');
+			}
 		} else {
 			echo 'Incorrect username and/or password!';
 		}

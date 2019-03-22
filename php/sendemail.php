@@ -16,7 +16,7 @@ if (isset($_POST['submit_email']) && $_POST['email']) {
     $stmt->bind_result($email, $password);
     $stmt->fetch();
     $stmt->close();
-    $link = "<a href='localhost/php/passwordrecovery.php?key=" . $email . "&reset=" . $password . "'>Click To Reset password</a>";
+    $link = "<a href='localhost/php/passwordrecovery.php?reset=" . $password . "'>Click To Reset password (PLEASE RESET IT IMMEDIATLY)</a>";
     $mail = new PHPMailer();
     $mail->CharSet =  "utf-8";
     $mail->IsSMTP();
