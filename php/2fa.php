@@ -1,4 +1,5 @@
 <?php
+session_start();
 require 'C:\Users\Stijn\Desktop\SecurityWebApp\vendor\autoload.php';
 
 $ga = new PHPGangsta_GoogleAuthenticator();
