@@ -48,7 +48,7 @@ $stmt->close();
             <table>
                 <tr>
                     <td>Username:</td>
-                    <td><?= $_SESSION['name'] ?></td>
+                    <td><?= filter_var($_SESSION['name'], FILTER_SANITIZE_SPECIAL_CHARS) ?></td>
                 </tr>
                 <tr>
                     <td>Password:</td>
@@ -59,7 +59,7 @@ $stmt->close();
                 </tr>
                 <tr>
                     <td>Email:</td>
-                    <td><?= $email ?></td>
+                    <td><?= filter_var($email, FILTER_SANITIZE_EMAIL) ?></td>
                 </tr>
             </table>
         </div>

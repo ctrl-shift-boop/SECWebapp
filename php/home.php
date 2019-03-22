@@ -27,7 +27,7 @@ if (!isset($_SESSION['loggedin'])) {
     </nav>
     <div class="content">
         <h2>Home Page</h2>
-        <p>Welcome back, <?= $_SESSION['name'] ?>!</p>
+        <p>Welcome back, <?= filter_var($_SESSION['name'], FILTER_SANITIZE_SPECIAL_CHARS) ?>!</p>
         <a href="2fa.php">Enable 2FA</a>
     </div>
 </body>
