@@ -1,0 +1,22 @@
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Login</title>
+    <link rel="stylesheet" type="text/css" href="css/index.css">
+</head>
+
+<body>
+    <div class="login-form">
+        <h1>2FA</h1>
+        <form action="php/secondstep.php" method="post">
+            <input type="text" name="oneCode" placeholder="Authentication Token">
+            <input type="submit">
+        </form>
+        <form action="php/logout.php">
+            <button type="submit">Cancel login</button>
+        </form>
+    </div>
+</body>
+
+</html>
