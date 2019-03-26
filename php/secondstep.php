@@ -22,11 +22,16 @@ if($stmt = $con->prepare('SELECT secret FROM accounts WHERE id = ?')){
         $stmt->fetch();
     }
 }
+$logstmt = $con->prepare('INSERT INTO logs (user_id, ip_address, description) VALUES (?,?,?)');
 $checkResult = $ga->verifyCode($secret, $_POST['oneCode'], 2); // 2 = 2*30sec clock tolerance
 if ($checkResult) {
     $_SESSION['loggedin'] = true;
+    $description = "user logged in succesfully with 2FA";
+    $logstmt->bind_param("iss", $_SESSION['id'], $_SERVER['REMOTE_ADDR'], $description);
     header('Location: /php/home.php');
 } else {
+    $description = "user could not produce the correct authenicator code";
+    $logstmt->bind_param("iss", $_SESSION['id'], $_SERVER['REMOTE_ADDR'], $description);
     header('Location: /php/logout.php');
 }
 

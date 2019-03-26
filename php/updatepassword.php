@@ -12,9 +12,12 @@ if (mysqli_connect_errno()) {
     die('Failed to connect to MySQL: ' . mysqli_connect_error());
 }
 // Now we check if the data was submitted, isset will check if the data exists.
-if (!isset($_POST['password'])) {
+if (empty($_POST['password'])) {
     // Could not get the data that should have been sent.
-    die('fill in both passwords');
+    die('fill in a password');
+}
+if (preg_match("#.*^(?=.{8,20})(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).*$#", $_POST['password'])) {
+    die("Please fill in a password that is longer than 8 characters, shorter than 20. Contains atleast one of all of the following: lowercase, an uppercase, a number and a symbol");
 }
 // Prepare our SQL 
 if ($stmt = $con->prepare('UPDATE accounts SET password = ? WHERE id = ?')) {
@@ -22,5 +25,5 @@ if ($stmt = $con->prepare('UPDATE accounts SET password = ? WHERE id = ?')) {
     $password = password_hash($_POST['password'], PASSWORD_DEFAULT);
     $stmt->bind_param('ss', $password, $_SESSION['id']);
     $stmt->execute();
-    header('Location: /php/profile.php');
+    //header('Location: /php/profile.php');
 }
