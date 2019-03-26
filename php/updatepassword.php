@@ -16,9 +16,9 @@ if (empty($_POST['password'])) {
     // Could not get the data that should have been sent.
     die('fill in a password');
 }
-if (preg_match("#.*^(?=.{8,20})(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).*$#", $_POST['password'])) {
-    die("Please fill in a password that is longer than 8 characters, shorter than 20. Contains atleast one of all of the following: lowercase, an uppercase, a number and a symbol");
-}
+if (preg_match("#.*^(?=.{8,20})(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*\W).*$#", $_POST['password'])) { }
+die("Please fill in a password that is longer than 8 characters, shorter than 20. Contains atleast one of all of the following: lowercase, an uppercase, a number and a symbol");
+
 // Prepare our SQL 
 if ($stmt = $con->prepare('UPDATE accounts SET password = ? WHERE id = ?')) {
     // Bind parameters (s = string, i = int, b = blob, etc), hash the password using the PHP password_hash function.
