@@ -32,7 +32,6 @@ if ($stmt = $con->prepare('SELECT id, password, secret FROM accounts WHERE usern
 		if (password_verify($_POST['password'], $password)) {
 			if(!$secret == NULL){
 				// First step of Authenication is a succes
-				$_SESSION['loggedin'] = false;
 				$_SESSION['name'] = $_POST['username'];
 				$_SESSION['id'] = $id;
 				header('Location: /secondstep.html');
@@ -61,6 +60,6 @@ if ($stmt = $con->prepare('SELECT id, password, secret FROM accounts WHERE usern
 	$logstmt->close();
 	$stmt->close();
 } else {
-	echo 'Could not prepare statement!';
+	echo 'Something went wrong';
 }
  

@@ -45,7 +45,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['recaptcha_response'])
 		$containsNumber = preg_match('@[0-9]@', $_POST['password']);
 		$containsSymbol = preg_match('@[^/w]@', $_POST['password']);
 		if (!$containsLowerCase || !$containsUpperCase || !$containsNumber || !$containsSymbol) {
-			die("Please fill in a password that is longer than 8 characters, shorter than 20. Contains atleast one of all of the following: lowercase, an uppercase, a number and a symbol");
+			die("Please fill in a password that is longer than 8 characters, shorter than 20. 
+			Contains atleast one of all of the following: lowercase, an uppercase, a number and a symbol");
 		}
 
 		// We need to check if the account with that username exists.

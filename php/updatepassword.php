@@ -1,6 +1,11 @@
 <?php
 session_start();
 // Change this to your connection info.
+// If the user is not logged in redirect to the login page...
+if (!isset($_SESSION['loggedin'])) {
+    header('Location: ../index.html');
+    exit();
+}
 $DB_HOST = 'localhost';
 $DB_USER = 'root';
 $DB_PASS = 'usbw';

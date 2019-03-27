@@ -40,7 +40,7 @@ if (isset($_POST['submit_email']) && $_POST['email']) {
     if ($mail->Send()) {
         echo "Check Your Email and Click on the link sent to your email";
     } else {
-        echo "Mail Error - >" . $mail->ErrorInfo;
+        echo "SMTP Error";
     }
 }
 $con->close();
